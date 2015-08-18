@@ -1,0 +1,64 @@
+******
+KIBANA
+******
+
+Instalación y configuración de kibana_
+
+**********
+Requisitos
+**********
+
+Sistemas operativos soportados:
+
+- CentOS 7 
+
+*********
+Variables
+*********
+
+::
+
+	---
+	# defaults file for kibana
+	kibana_version: 4.1.1 # Versión
+	kibana_dir: /opt # Directorio de instalción
+	kibana_elasticsearch_url: localhost  # Conexión a elasticsearch para kibana (por defect localhost)
+	kibana_index: .kibana # Indice de kibana en elasticsearch
+	kibana_host: 0.0.0.0  # Host de kibana (por defecto 0.0.0.0) [no cambiar a no ser que sea necesario]
+	kibana_log: /var/log/kibana.log # Fichero con los logs de kibana
+	kibana_log_rotate_count: 5 # Número de logs a mantener
+	kibana_log_rotate_interval: daily # Rotación de logs
+	kibana_port: 5601 # Puerto de escucha
+
+************
+Dependencias
+************
+
+Ninguna.
+
+*******************
+Ejemplo de playbook
+*******************
+
+::
+
+    - hosts: servers
+      roles:
+         - { role: alkher.kibana }
+
+********
+Licencia
+********
+
+BSD
+
+*****
+Autor
+*****
+
+Andoni Alcalde
+- @alkher
+- http://zenway.es
+- alcher [at] zenway [dot] es
+
+.. _kibana: https://www.elastic.co/products/kibana

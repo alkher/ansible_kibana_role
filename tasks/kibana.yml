@@ -1,0 +1,25 @@
+---
+# Instalación de kibana
+- name: crear cuenta de usuario para kibana
+  user: name=kibana system=yes home=/var/lib/kibana shell=/bin/false state=present
+
+- name: descarga de kibana
+  get_url: url=https://download.elastic.co/kibana/kibana/kibana-{{ kibana_version }}-linux-x64.tar.gz dest=/usr/local/src/kibana-{{ kibana_version }}-linux-x64.tar.gz
+
+- name: descomprimir e instalar kibana
+  unarchive: src=/usr/local/src/kibana-{{ kibana_version }}-linux-x64.tar.gz dest={{ kibana_dir }} copy=no creates={{ kibana_dir }}/kibana-{{ kibana_version }}-linux-x64
+
+- name: configurar kibana
+  template: src=kibana.yml.j2 dest={{ kibana_dir }}/kibana-{{ kibana_version }}-linux-x64/config/kibana.yml
+  notify: reiniciar kibana
+
+- name: ver si existe el fichero de log de kibana
+  stat: path={{ kibana_log }}
+  register: kibana_log_file
+
+- name: crear el fichero de log de kibana
+  file: path={{ kibana_log}} state=touch owner=kibana group=kibana mode=0644
+  when: not kibana_log_file.stat.exists
+
+- name: configurar la rotación de logs para kibana
+  template: src=kibana.j2 dest=/etc/logrotate.d/kibana owner=root group=root mode=0644

@@ -1,0 +1,8 @@
+---
+# Servicio para CentOS
+- name: configurar el servicio para kibana
+  template: src=kibana.service.j2 dest=/etc/systemd/system/kibana.service
+  notify: reiniciar kibana
+
+- name: habilitar el arranque del servicio en el inicio
+  service: name=kibana enabled=yes
